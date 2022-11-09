@@ -5,7 +5,7 @@ from django.utils.crypto import get_random_string
 
 class UserManager(BaseUserManager):
     def _create(self, username, phone, password, **extra_fields):
-        if not username or phone:
+        if not username and phone:
             raise ValueError('User must have username and phone')
         user = self.model(
             username=username,
@@ -34,7 +34,7 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=10, blank=True)
 
-    objects: UserManager()
+    objects=  UserManager()
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['phone']
