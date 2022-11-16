@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
@@ -6,6 +8,7 @@ from .utils import normalize_phone
 
 
 User = get_user_model()
+logger = logging.getLogger(__name__)
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -29,9 +32,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):  # validated_data - это пройденные проверку данные 
-        user = User.objects.create(**validated_data)    # ** - это расспаковка данных с validated_data
+        user = User.objects.create_user(**validated_data)    # ** - это расспаковка данных с validated_data
         user.create_activation_code()
-        send_activation_sms(user.phone, user.activation_code)
+        try:
+            send_activation_sms(user.phone, user.activation_code)
+        except Exception as e:
+            logger.error(str(e))
         return user
 
         

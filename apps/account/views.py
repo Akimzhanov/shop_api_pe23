@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
+
 from .serializers import (
     RegistrationSerializer,
     ActivationSerializer,
@@ -18,7 +19,7 @@ class RegistrationView(APIView):
             return Response('Спасибо за регистрацию.',
             status=status.HTTP_201_CREATED
             )
-            
+                
 
 class ActivationView(APIView):
     def post(self, request: Request):

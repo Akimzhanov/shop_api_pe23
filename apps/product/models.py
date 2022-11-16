@@ -37,11 +37,12 @@ class Product(models.Model):
     slug = models.SlugField(max_length=220, primary_key=True, blank=True)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity = models.IntegerField(default=0)
+    quantity = models.PositiveIntegerField(default=0)
     in_stock = models.BooleanField(default=False)
     image = models.ImageField(upload_to='product_images')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    views_count = models.IntegerField(default=0)
     category = models.ForeignKey(
         to=Category,
         on_delete=models.CASCADE,
